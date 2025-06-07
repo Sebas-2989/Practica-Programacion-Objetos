@@ -1,6 +1,7 @@
 package BL;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Transacciones {
     private LocalDate fecha;
@@ -40,6 +41,16 @@ public class Transacciones {
         this.tipoTransaccion = tipoTransaccion;
     }
 
+    public Transacciones() {
+    }
+
+    public Transacciones(LocalDate fecha, double monto, int idTransaccion, String tipoTransaccion) {
+        this.fecha = fecha;
+        this.monto = monto;
+        this.idTransaccion = idTransaccion;
+        this.tipoTransaccion = tipoTransaccion;
+    }
+
     @Override
     public String toString() {
         return "Transacciones{" +
@@ -50,5 +61,15 @@ public class Transacciones {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Transacciones that = (Transacciones) o;
+        return Double.compare(monto, that.monto) == 0 && idTransaccion == that.idTransaccion && Objects.equals(fecha, that.fecha) && Objects.equals(tipoTransaccion, that.tipoTransaccion);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(fecha, monto, idTransaccion, tipoTransaccion);
+    }
 }

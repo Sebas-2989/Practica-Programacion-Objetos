@@ -1,5 +1,7 @@
 package BL;
 
+import java.util.Objects;
+
 public class Cliente {
     private String idCliente;
     private String nombre;
@@ -83,6 +85,21 @@ public class Cliente {
         this.direccion = direccion;
     }
 
+    public Cliente() {
+    }
+
+    public Cliente(String idCliente, String nombre, String primerApellido, String segundoApellido, String cedula, String sexo, String correoElectronico, String profesion, String direccion) {
+        this.idCliente = idCliente;
+        this.nombre = nombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.cedula = cedula;
+        this.sexo = sexo;
+        this.correoElectronico = correoElectronico;
+        this.profesion = profesion;
+        this.direccion = direccion;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
@@ -97,4 +114,18 @@ public class Cliente {
                 ", direccion='" + direccion + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(idCliente, cliente.idCliente) && Objects.equals(nombre, cliente.nombre) && Objects.equals(primerApellido, cliente.primerApellido) && Objects.equals(segundoApellido, cliente.segundoApellido) && Objects.equals(cedula, cliente.cedula) && Objects.equals(sexo, cliente.sexo) && Objects.equals(correoElectronico, cliente.correoElectronico) && Objects.equals(profesion, cliente.profesion) && Objects.equals(direccion, cliente.direccion);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCliente, nombre, primerApellido, segundoApellido, cedula, sexo, correoElectronico, profesion, direccion);
+    }
+
+
 }
