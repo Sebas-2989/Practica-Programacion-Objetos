@@ -1,4 +1,3 @@
-
 package UI;
 
 import BL.BL;
@@ -58,18 +57,18 @@ public class Main {
             case 4:
                 eliminarCliente();
                 break;
-//            case 5:
-//                registrarCuentaAhorro();
-//                break;
-//            case 6:
-//                modificarCuentaAhorro();
-//                break;
-//            case 7:
-//                listarCuentasAhorro();
-//                break;
-//            case 8:
-//                eliminarCuentaAhorro();
-//                break;
+            case 5:
+                registrarCuentaAhorro();
+                break;
+            case 6:
+                modificarCuentaAhorro();
+                break;
+            case 7:
+                listarCuentasAhorro();
+                break;
+            case 8:
+                eliminarCuentaAhorro();
+                break;
             case 0:
                 out.println("Programa terminado");
                 break;
@@ -79,7 +78,7 @@ public class Main {
     }
 
     static void registrarCliente() throws IOException {
-        out.println("-- Registro de Cliente --");
+        out.println("Registro de Cliente");
         out.print("ID Cliente: ");
         String id = in.readLine();
         out.print("Nombre: ");
@@ -156,7 +155,111 @@ public class Main {
         }
     }
 
-  
+      public static void registrarCuentaAhorro() throws IOException {
+        out.println("Registro de Cuenta de Ahorro");
+        out.print("ID Cuenta: ");
+        String idCuenta = in.readLine();
+        out.print("Saldo inicial: ");
+        double saldo = Double.parseDouble(in.readLine());
+        out.print("Cuenta activa (S/N): ");
+        String activa = in.readLine();
+        out.print("ID Cliente asociado: ");
+        String idCliente = in.readLine();
+        
+        
+        Cliente cliente = null;
+        for (Cliente client : bl.listarClientes()) {
+            if (client.getIdCliente().equals(idCliente)) {
+                cliente = client;
+                break;
+            }
+        }
+        if (cliente == null) {
+            out.println("Error: El cliente no existe.");
+            return;
+        }
+        if (saldo < 100) {
+            out.println("Error: El saldo inicial debe ser al menos 100 dólares.");
+            return;
+        }
+
+        
+        CuentaAhorro cuenta = new CuentaAhorro();
+        cuenta.setIdCuenta(idCuenta);
+        cuenta.setSaldo(saldo);
+        cuenta.setCuentaActiva(activa);
+        cuenta.setCliente(cliente);
+        if (bl.registrarCuentaAhorro(cuenta)) {
+            out.println("Cuenta de ahorro registrada correctamente.");
+        } else {
+            out.println("Error: Cuenta de ahorro ya existe.");
+        }
+    }
+
+    public static void modificarCuentaAhorro() throws IOException {
+        out.print("ID Cuenta de Ahorro a modificar: ");
+        String idCuenta = in.readLine();
+        CuentaAhorro existente = null;
+        for (CuentaAhorro client : bl.listarCuentasAhorro()) {
+            if (client.getIdCuenta().equals(idCuenta)) {
+                existente = client;
+                break;
+            }
+        }
+        if (existente == null) {
+            out.println("Cuenta de ahorro no encontrada.");
+            return;
+        }
+        out.print("Nuevo saldo : ");
+        double saldo = Double.parseDouble(in.readLine());
+        out.print("Cuenta activa (S/N): ");
+        String activa = in.readLine();
+        out.print("ID Cliente asociado: ");
+        String idCliente = in.readLine();
+        // Buscar cliente
+        Cliente cliente = null;
+        for (Cliente client : bl.listarClientes()) {
+            if (client.getIdCliente().equals(idCliente)) {
+                cliente = client;
+                break;
+            }
+        }
+        if (cliente == null) {
+            out.println("Error: El cliente no existe.");
+            return;
+        }
+        if (saldo < 100) {
+            out.println("Error: El saldo debe ser al menos 100 dólares.");
+            return;
+        }
+        CuentaAhorro modificado = new CuentaAhorro();
+        modificado.setIdCuenta(idCuenta);
+        modificado.setSaldo(saldo);
+        modificado.setCuentaActiva(activa);
+        modificado.setCliente(cliente);
+        if (bl.modificarCuentaAhorro(modificado)) {
+            out.println("Cuenta de ahorro modificada correctamente.");
+        } else {
+            out.println("Error al modificar cuenta de ahorro.");
+        }
+    }
+
+    public static void eliminarCuentaAhorro() throws IOException {
+        out.print("ID Cuenta de Ahorro a eliminar: ");
+        String idCuenta = in.readLine();
+        if (bl.eliminarCuentaAhorro(idCuenta)) {
+            out.println("Cuenta de ahorro eliminada correctamente.");
+        } else {
+            out.println("Cuenta de ahorro no encontrada.");
+        }
+    }
+
+    public static void listarCuentasAhorro() {
+        out.println("Lista de Cuentas de Ahorro");
+        for (CuentaAhorro client : bl.listarCuentasAhorro()) {
+            out.println(client);
+        }
+    }
  
 }
 

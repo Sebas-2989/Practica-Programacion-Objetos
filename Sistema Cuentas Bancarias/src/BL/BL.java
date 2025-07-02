@@ -1,4 +1,3 @@
-
 package BL;
 
 import BL.Clases.Cliente;
@@ -74,9 +73,43 @@ public class BL {
     }
 
 
+    public boolean registrarCuentaAhorro(CuentaAhorro cuenta) {
+        if (cuentasAhorro == null) {
+            cuentasAhorro = new ArrayList<>();
+        }
+        for (CuentaAhorro cuent : cuentasAhorro) {
+            if (cuent.getIdCuenta().equals(cuenta.getIdCuenta())) {
+                return false;
+            }
+        }
+        cuentasAhorro.add(cuenta);
+        return true;
+    }
 
+public boolean modificarCuentaAhorro(CuentaAhorro cuenta) {
+    if (cuentasAhorro == null) return false;
+    for (CuentaAhorro cuent : cuentasAhorro) {
+        if (cuent.getIdCuenta().equals(cuenta.getIdCuenta())) {
+            cuent.setSaldo(cuenta.getSaldo());
+            cuent.setCuentaActiva(cuenta.getCuentaActiva());
+            cuent.setCliente(cuenta.getCliente());
+       
+            return true;
+        }
+    }
+    return false;
+}
 
+    public boolean eliminarCuentaAhorro(String idCuenta) {
+        if (cuentasAhorro == null) return false;
+        return cuentasAhorro.removeIf(c -> c.getIdCuenta().equals(idCuenta));
+    }
 
-
+    public ArrayList<CuentaAhorro> listarCuentasAhorro() {
+        if (cuentasAhorro == null) {
+            cuentasAhorro = new ArrayList<>();
+        }
+        return cuentasAhorro;
+    }
 
 }
