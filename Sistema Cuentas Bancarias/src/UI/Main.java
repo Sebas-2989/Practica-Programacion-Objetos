@@ -28,7 +28,7 @@ public class Main {
     static int mostrarMenu() throws java.io.IOException {
         int opcion;
         opcion = 0;
-        out.println("\n--- Menú Principal ---");
+        out.println("Menú Principal");
         out.println("1. Registrar cliente");
         out.println("2. Modificar cliente");
         out.println("3. Listar clientes");
@@ -133,15 +133,15 @@ public class Main {
     cliente.setSexo(in.readLine());
     out.println("Digite el correo del cliente: ");
     cliente.setCorreoElectronico(in.readLine());
-    out.println("Digite la profesion del cliente");
+    out.println("Digite la profesion del cliente: ");
     cliente.setProfesion(in.readLine());
-    out.println("Digite la direccion del cliente");
+    out.println("Digite la direccion del cliente: ");
     cliente.setDireccion(in.readLine());
         
     if (bl.modificarCliente(cliente))
-        out.println("Cliente Modificado");
+        out.println("Cliente modificado.");
     else
-        out.println("Cliente No Encontrado");
+        out.println("Cliente no encontrado");
 }
 
 
