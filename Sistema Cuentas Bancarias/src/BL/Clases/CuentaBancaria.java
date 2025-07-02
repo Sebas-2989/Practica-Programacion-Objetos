@@ -1,4 +1,4 @@
-package BL;
+package BL.Clases;
 
 import java.util.Objects;
 
@@ -7,6 +7,7 @@ public class CuentaBancaria {
     private String tipoCuenta;
     private double saldo;
     private String cuentaActiva;
+    private Cliente cliente; //compo
 
     public String getIdCuenta() {
         return idCuenta;
@@ -40,14 +41,23 @@ public class CuentaBancaria {
         this.cuentaActiva = cuentaActiva;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public CuentaBancaria() {
     }
 
-    public CuentaBancaria(String idCuenta, String tipoCuenta, double saldo, String cuentaActiva) {
+    public CuentaBancaria(String idCuenta, String tipoCuenta, double saldo, String cuentaActiva, Cliente cliente) {
         this.idCuenta = idCuenta;
         this.tipoCuenta = tipoCuenta;
         this.saldo = saldo;
         this.cuentaActiva = cuentaActiva;
+        this.cliente = cliente;
     }
 
     @Override
@@ -57,6 +67,7 @@ public class CuentaBancaria {
                 ", tipoCuenta='" + tipoCuenta + '\'' +
                 ", saldo=" + saldo +
                 ", cuentaActiva='" + cuentaActiva + '\'' +
+                ", cliente=" + cliente +
                 '}';
     }
 
@@ -64,13 +75,11 @@ public class CuentaBancaria {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         CuentaBancaria that = (CuentaBancaria) o;
-        return Double.compare(saldo, that.saldo) == 0 && Objects.equals(idCuenta, that.idCuenta) && Objects.equals(tipoCuenta, that.tipoCuenta) && Objects.equals(cuentaActiva, that.cuentaActiva);
+        return Double.compare(saldo, that.saldo) == 0 && Objects.equals(idCuenta, that.idCuenta) && Objects.equals(tipoCuenta, that.tipoCuenta) && Objects.equals(cuentaActiva, that.cuentaActiva) && Objects.equals(cliente, that.cliente);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCuenta, tipoCuenta, saldo, cuentaActiva);
+        return Objects.hash(idCuenta, tipoCuenta, saldo, cuentaActiva, cliente);
     }
-
-
 }

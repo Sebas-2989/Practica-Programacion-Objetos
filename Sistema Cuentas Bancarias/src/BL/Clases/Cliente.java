@@ -1,4 +1,4 @@
-package BL;
+package BL.Clases;
 
 import java.util.Objects;
 
