@@ -17,11 +17,10 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        // Inicia la GUI en el hilo de eventos de Swing
         javax.swing.SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Sistema de Cuentas Bancarias");
-            frame.setSize(700, 500); // Tamaño más grande para mejor visualización
-            frame.setContentPane(new GUI().panel1); // panel1 debe ser público o tener un getter
+            frame.setSize(700, 500); 
+            frame.setContentPane(new GUI().panel1); 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
