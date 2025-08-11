@@ -1,4 +1,4 @@
-package BL.Clases;
+package BL;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -6,8 +6,9 @@ import java.util.Objects;
 public class Transacciones {
     private LocalDate fecha;
     private double monto;
-    private int idTransaccion;
+    private String idTransaccion;
     private String tipoTransaccion;
+    private CuentaBancaria cuentaBancaria;
 
     public LocalDate getFecha() {
         return fecha;
@@ -25,11 +26,11 @@ public class Transacciones {
         this.monto = monto;
     }
 
-    public int getIdTransaccion() {
+    public String getIdTransaccion() {
         return idTransaccion;
     }
 
-    public void setIdTransaccion(int idTransaccion) {
+    public void setIdTransaccion(String idTransaccion) {
         this.idTransaccion = idTransaccion;
     }
 
@@ -41,14 +42,23 @@ public class Transacciones {
         this.tipoTransaccion = tipoTransaccion;
     }
 
+    public CuentaBancaria getCuentaBancaria() {
+        return cuentaBancaria;
+    }
+
+    public void setCuentaBancaria(CuentaBancaria cuentaBancaria) {
+        this.cuentaBancaria = cuentaBancaria;
+    }
+
     public Transacciones() {
     }
 
-    public Transacciones(LocalDate fecha, double monto, int idTransaccion, String tipoTransaccion) {
+    public Transacciones(LocalDate fecha, double monto, String idTransaccion, String tipoTransaccion, CuentaBancaria cuentaBancaria) {
         this.fecha = fecha;
         this.monto = monto;
         this.idTransaccion = idTransaccion;
         this.tipoTransaccion = tipoTransaccion;
+        this.cuentaBancaria = cuentaBancaria;
     }
 
     @Override
@@ -56,8 +66,9 @@ public class Transacciones {
         return "Transacciones{" +
                 "fecha=" + fecha +
                 ", monto=" + monto +
-                ", idTransaccion=" + idTransaccion +
+                ", idTransaccion='" + idTransaccion + '\'' +
                 ", tipoTransaccion='" + tipoTransaccion + '\'' +
+                ", cuentaBancaria=" + cuentaBancaria +
                 '}';
     }
 
@@ -65,11 +76,11 @@ public class Transacciones {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Transacciones that = (Transacciones) o;
-        return Double.compare(monto, that.monto) == 0 && idTransaccion == that.idTransaccion && Objects.equals(fecha, that.fecha) && Objects.equals(tipoTransaccion, that.tipoTransaccion);
+        return Double.compare(monto, that.monto) == 0 && Objects.equals(fecha, that.fecha) && Objects.equals(idTransaccion, that.idTransaccion) && Objects.equals(tipoTransaccion, that.tipoTransaccion) && Objects.equals(cuentaBancaria, that.cuentaBancaria);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fecha, monto, idTransaccion, tipoTransaccion);
+        return Objects.hash(fecha, monto, idTransaccion, tipoTransaccion, cuentaBancaria);
     }
 }

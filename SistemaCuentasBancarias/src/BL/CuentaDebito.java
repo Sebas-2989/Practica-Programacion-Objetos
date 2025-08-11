@@ -1,4 +1,4 @@
-package BL.Clases;
+package BL;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class CuentaDebito extends CuentaBancaria {
     public CuentaDebito() {
     }
 
-    public CuentaDebito(String idCuenta, String tipoCuenta, double saldo, String cuentaActiva, Cliente cliente, double tasaInteres) {
+    public CuentaDebito(String idCuenta, String tipoCuenta, double saldo, boolean cuentaActiva, Cliente cliente, double tasaInteres) {
         super(idCuenta, tipoCuenta, saldo, cuentaActiva, cliente);
         this.tasaInteres = tasaInteres;
     }

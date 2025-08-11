@@ -1,4 +1,4 @@
-package BL.Clases;
+package BL;
 
 import java.util.Objects;
 
@@ -6,7 +6,7 @@ public class CuentaBancaria {
     private String idCuenta;
     private String tipoCuenta;
     private double saldo;
-    private String cuentaActiva;
+    private boolean cuentaActiva;
     private Cliente cliente; //compo
 
     public String getIdCuenta() {
@@ -33,11 +33,11 @@ public class CuentaBancaria {
         this.saldo = saldo;
     }
 
-    public String getCuentaActiva() {
+    public boolean getCuentaActiva() {
         return cuentaActiva;
     }
 
-    public void setCuentaActiva(String cuentaActiva) {
+    public void setCuentaActiva(boolean cuentaActiva) {
         this.cuentaActiva = cuentaActiva;
     }
 
@@ -52,7 +52,7 @@ public class CuentaBancaria {
     public CuentaBancaria() {
     }
 
-    public CuentaBancaria(String idCuenta, String tipoCuenta, double saldo, String cuentaActiva, Cliente cliente) {
+    public CuentaBancaria(String idCuenta, String tipoCuenta, double saldo, boolean cuentaActiva, Cliente cliente) {
         this.idCuenta = idCuenta;
         this.tipoCuenta = tipoCuenta;
         this.saldo = saldo;
@@ -82,4 +82,6 @@ public class CuentaBancaria {
     public int hashCode() {
         return Objects.hash(idCuenta, tipoCuenta, saldo, cuentaActiva, cliente);
     }
+
+
 }

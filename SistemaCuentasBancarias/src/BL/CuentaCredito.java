@@ -1,4 +1,4 @@
-package BL.Clases;
+package BL;
 
 import java.util.Objects;
 
@@ -16,7 +16,7 @@ public class CuentaCredito extends CuentaBancaria{
     public CuentaCredito() {
     }
 
-    public CuentaCredito(String idCuenta, String tipoCuenta, double saldo, String cuentaActiva, Cliente cliente, double limiteCredito) {
+    public CuentaCredito(String idCuenta, String tipoCuenta, double saldo, boolean cuentaActiva, Cliente cliente, double limiteCredito) {
         super(idCuenta, tipoCuenta, saldo, cuentaActiva, cliente);
         this.limiteCredito = limiteCredito;
     }

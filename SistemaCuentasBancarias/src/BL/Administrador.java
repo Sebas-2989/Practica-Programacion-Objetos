@@ -1,4 +1,4 @@
-package BL.Clases;
+package BL;
 
 import java.util.Objects;
 
@@ -9,16 +9,26 @@ import java.util.Objects;
     */
 
 public class Administrador {
+    private String idAdministrador;
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
     private String cedula;
     private String correoElectronico;
 
+
+        public String getIdAdministrador() {
+            return idAdministrador;
+        }
+
+        public void setIdAdministrador(String idAdministrador) {
+            this.idAdministrador = idAdministrador;
+        }
+
         /**
-         * Método getter para obtener el nombre del administrador.
-         * @return Nombre del administrador.
-         */
+     * Método getter para obtener el nombre del administrador.
+     * @return Nombre del administrador.
+     */
     public String getNombre() {
         return nombre;
     }
@@ -102,7 +112,8 @@ public class Administrador {
      * @param correoElectronico Correo electrónico del administrador.
      */
 
-    public Administrador(String nombre, String primerApellido, String segundoApellido, String cedula, String correoElectronico) {
+    public Administrador(String idAdministrador, String nombre, String primerApellido, String segundoApellido, String cedula, String correoElectronico) {
+        this.idAdministrador = idAdministrador;
         this.nombre = nombre;
         this.primerApellido = primerApellido;
         this.segundoApellido = segundoApellido;
@@ -110,14 +121,15 @@ public class Administrador {
         this.correoElectronico = correoElectronico;
     }
 
-    /**
+        /**
      * Método toString que devuelve una representación en cadena del objeto Administrador.
      * @return Cadena con los detalles del administrador.
      */
     @Override
     public String toString() {
         return "Administrador{" +
-                "nombre='" + nombre + '\'' +
+                "idAdministrador='" + idAdministrador + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", primerApellido='" + primerApellido + '\'' +
                 ", segundoApellido='" + segundoApellido + '\'' +
                 ", cedula='" + cedula + '\'' +
@@ -125,25 +137,16 @@ public class Administrador {
                 '}';
     }
 
-    /**
-     * Método equals que compara dos objetos Administrador para verificar si son iguales.
-     * @param o Objeto a comparar.
-     * @return true si los objetos son iguales, false en caso contrario.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Administrador that = (Administrador) o;
-        return Objects.equals(nombre, that.nombre) && Objects.equals(primerApellido, that.primerApellido) && Objects.equals(segundoApellido, that.segundoApellido) && Objects.equals(cedula, that.cedula) && Objects.equals(correoElectronico, that.correoElectronico);
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (o == null || getClass() != o.getClass()) return false;
+            Administrador that = (Administrador) o;
+            return Objects.equals(idAdministrador, that.idAdministrador) && Objects.equals(nombre, that.nombre) && Objects.equals(primerApellido, that.primerApellido) && Objects.equals(segundoApellido, that.segundoApellido) && Objects.equals(cedula, that.cedula) && Objects.equals(correoElectronico, that.correoElectronico);
+        }
 
-    /**
-     * Método hashCode que genera un código hash para el objeto Administrador.
-     * @return Código hash del objeto.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(nombre, primerApellido, segundoApellido, cedula, correoElectronico);
+        @Override
+        public int hashCode() {
+            return Objects.hash(idAdministrador, nombre, primerApellido, segundoApellido, cedula, correoElectronico);
+        }
     }
-}
 
