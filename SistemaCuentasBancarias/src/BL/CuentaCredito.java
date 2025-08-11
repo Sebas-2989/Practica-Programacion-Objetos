@@ -24,6 +24,7 @@ public class CuentaCredito extends CuentaBancaria{
     @Override
     public String toString() {
         return "CuentaCredito{" +
+                super.toString() +
                 "limiteCredito=" + limiteCredito +
                 '}';
     }

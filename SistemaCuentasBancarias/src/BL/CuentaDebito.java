@@ -24,6 +24,7 @@ public class CuentaDebito extends CuentaBancaria {
     @Override
     public String toString() {
         return "CuentaDebito{" +
+                super.toString() +
                 "tasaInteres=" + tasaInteres +
                 '}';
     }

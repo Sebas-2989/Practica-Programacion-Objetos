@@ -148,29 +148,42 @@ public class CuentaBancariaDAO {
             ResultSet resultSet = statement.executeQuery();
             ClienteDAO clienteDAO = new ClienteDAO(); 
             while (resultSet.next()) {
-                String tipo = resultSet.getString("tipoCuenta");
-                CuentaBancaria cuenta;
-                if ("Ahorro".equals(tipo)) {
-                cuenta = new CuentaAhorro();
-                ((CuentaAhorro) cuenta).setTasaInteres(resultSet.getDouble("tasaInteres"));
-                } else if ("Debito".equals(tipo)) {
+                String tipoCuenta = resultSet.getString("tipoCuenta");
+                CuentaBancaria cuenta = null;
+    
+                if ("Ahorro".equals(tipoCuenta)) {
+                    cuenta = new CuentaAhorro();
+                    double tasa = resultSet.getDouble("tasaInteres");
+                    if (!resultSet.wasNull()) {
+                        ((CuentaAhorro) cuenta).setTasaInteres(tasa);
+                    }
+                } else if ("Debito".equals(tipoCuenta)) {
                     cuenta = new CuentaDebito();
-                    ((CuentaDebito) cuenta).setTasaInteres(resultSet.getDouble("tasaInteres"));
-                } else if ("Credito".equals(tipo)) {
+                    double tasa = resultSet.getDouble("tasaInteres");
+                    if (!resultSet.wasNull()) {
+                        ((CuentaDebito) cuenta).setTasaInteres(tasa);
+                    }
+                } else if ("Credito".equals(tipoCuenta)) {
                     cuenta = new CuentaCredito();
-                    ((CuentaCredito) cuenta).setLimiteCredito(resultSet.getDouble("limiteCredito"));
+                    double limite = resultSet.getDouble("limiteCredito");
+                    if (!resultSet.wasNull()) {
+                        ((CuentaCredito) cuenta).setLimiteCredito(limite);
+                    }
                 } else {
                     continue;
                 }
+    
+                
                 cuenta.setIdCuenta(resultSet.getString("idCuenta"));
+                cuenta.setTipoCuenta(resultSet.getString("tipoCuenta"));
                 cuenta.setSaldo(resultSet.getDouble("saldo"));
                 cuenta.setCuentaActiva(resultSet.getBoolean("cuentaActiva"));
-
+    
                 // Asignar el cliente a la cuenta bancaria
                 String idCliente = resultSet.getString("idCliente");
                 Cliente cliente = clienteDAO.buscarClientePorId(idCliente);
                 cuenta.setCliente(cliente);
-
+    
                 cuentas.add(cuenta);
             }
             conexion.close();

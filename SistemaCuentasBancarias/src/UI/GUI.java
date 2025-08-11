@@ -333,17 +333,114 @@ public class GUI {
             }
         });
 
+        pagoCuentaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Transacciones transaccion = new Transacciones();
+                String idTransaccion = JOptionPane.showInputDialog("Ingrese el ID de la transacción:");
+                if (idTransaccion == null) return;
+                String idCuentaOrigen = JOptionPane.showInputDialog("Ingrese el ID de la cuenta que paga:");
+                if (idCuentaOrigen == null) return;
+                String idCuentaDestino = JOptionPane.showInputDialog("Ingrese el ID de la cuenta que recibe:");
+                if (idCuentaDestino == null) return;
+                double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el monto a pagar:"));
+                if (monto <= 0) {
+                    JOptionPane.showMessageDialog(panel1, "El monto debe ser mayor que cero.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                CuentaBancaria cuentaOrigen = bl.buscarCuentaPorId(idCuentaOrigen);
+                CuentaBancaria cuentaDestino = bl.buscarCuentaPorId(idCuentaDestino);
+                if (cuentaOrigen == null) {
+                    JOptionPane.showMessageDialog(panel1, "Cuenta origen no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (cuentaDestino == null) {
+                    JOptionPane.showMessageDialog(panel1, "Cuenta destino no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+        
+                transaccion.setIdTransaccion(idTransaccion);
+                transaccion.setMonto(monto);
+                transaccion.setTipoTransaccion("Pago");
+                transaccion.setFecha(java.time.LocalDate.now());
+                transaccion.setCuentaBancaria(cuentaOrigen);
+        
+                boolean exito = bl.pagarCuenta(transaccion, cuentaDestino);
+                if (exito) {
+                    JOptionPane.showMessageDialog(panel1, "Pago realizado exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(panel1, "Error: No se pudo realizar el pago.");
+                }
+            }
+        });
 
+        depositoCuentaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Transacciones transaccion = new Transacciones();
+                String idTransaccion = JOptionPane.showInputDialog("Ingrese el ID de la transacción:");
+                if (idTransaccion == null) return;
+                String idCuenta = JOptionPane.showInputDialog("Ingrese el ID de la cuenta:");
+                if (idCuenta == null) return;
+                double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el monto a depositar:"));
+                if (monto <= 0) {
+                    JOptionPane.showMessageDialog(panel1, "El monto debe ser mayor que cero.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                CuentaBancaria cuenta = bl.buscarCuentaPorId(idCuenta);
+                if (cuenta == null) {
+                    JOptionPane.showMessageDialog(panel1, "Cuenta no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
+                transaccion.setIdTransaccion(idTransaccion);
+                transaccion.setMonto(monto);
+                transaccion.setTipoTransaccion("Depósito");
+                transaccion.setFecha(java.time.LocalDate.now());
+                transaccion.setCuentaBancaria(cuenta);
 
+                boolean exito = bl.depositarCuenta(transaccion);
+                if (exito) {
+                    JOptionPane.showMessageDialog(panel1, "Depósito realizado exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(panel1, "Error: No se pudo realizar el depósito.");
+                }
+            }
+        });
 
+        abonoCuentaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Transacciones transaccion = new Transacciones();
+                String idTransaccion = JOptionPane.showInputDialog("Ingrese el ID de la transacción:");
+                if (idTransaccion == null) return;
+                String idCuenta = JOptionPane.showInputDialog("Ingrese el ID de la cuenta:");
+                if (idCuenta == null) return;
+                double monto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el monto a abonar:"));
+                if (monto <= 0) {
+                    JOptionPane.showMessageDialog(panel1, "El monto debe ser mayor que cero.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                CuentaBancaria cuenta = bl.buscarCuentaPorId(idCuenta);
+                if (cuenta == null) {
+                    JOptionPane.showMessageDialog(panel1, "Cuenta no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
+                transaccion.setIdTransaccion(idTransaccion);
+                transaccion.setMonto(monto);
+                transaccion.setTipoTransaccion("Abono");
+                transaccion.setFecha(java.time.LocalDate.now());
+                transaccion.setCuentaBancaria(cuenta);
 
-
-
-
-
-
+                boolean exito = bl.abonoCuenta(transaccion);
+                if (exito) {
+                    JOptionPane.showMessageDialog(panel1, "Abono realizado exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(panel1, "Error: No se pudo realizar el abono.");
+                }
+            }
+        });
 
     }
 }

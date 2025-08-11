@@ -7,7 +7,7 @@ import DAO.TransaccionesDAO;
 import java.util.ArrayList;
 
 public class BL {
-    
+
     private ClienteDAO clientedao = new ClienteDAO();
     private CuentaBancariaDAO cuentabancariaDAO = new CuentaBancariaDAO();
     private TransaccionesDAO transaccionesDAO = new TransaccionesDAO();
@@ -94,22 +94,21 @@ public class BL {
     public boolean retirarCuenta(Transacciones transaccion) {
         CuentaBancaria cuenta = transaccion.getCuentaBancaria();
         if (cuenta == null || !cuenta.getCuentaActiva()) {
-            return false; // Cuenta no existe o está inactiva
+            return false;
         }
         double saldoActual = cuenta.getSaldo();
         double monto = transaccion.getMonto();
 
-        // Reglas de negocio
         if (cuenta instanceof CuentaAhorro) {
-            if (saldoActual - monto < 100) return false; // Siempre debe quedar al menos $100
+            if (saldoActual - monto < 100) return false; 
         } else if (cuenta instanceof CuentaDebito) {
-            if (saldoActual - monto < 0) return false; // Nunca saldo negativo
+            if (saldoActual - monto < 0) return false;
         } else if (cuenta instanceof CuentaCredito) {
             CuentaCredito credito = (CuentaCredito) cuenta;
-            if (saldoActual - monto < credito.getLimiteCredito()) return false; // No puede exceder el límite 
-            if (saldoActual - monto > 0) return false; // Nunca saldo positivo
+            if (saldoActual - monto < -(credito.getLimiteCredito())) return false;
+            if (saldoActual - monto > 0) return false;
         } else {
-            return false; 
+            return false;
         }
 
         cuenta.setSaldo(saldoActual - monto);
@@ -122,4 +121,88 @@ public class BL {
     }
 
 
+    public boolean pagarCuenta(Transacciones transaccion, CuentaBancaria cuentaDestino) {
+        CuentaBancaria cuentaOrigen = transaccion.getCuentaBancaria();
+        if (cuentaOrigen == null || !cuentaOrigen.getCuentaActiva() ||
+                cuentaDestino == null || !cuentaDestino.getCuentaActiva()) {
+            return false;
+        }
+        double saldoOrigen = cuentaOrigen.getSaldo();
+        double monto = transaccion.getMonto();
+
+        if (cuentaOrigen instanceof CuentaAhorro || cuentaOrigen instanceof CuentaDebito || cuentaOrigen instanceof CuentaCredito) {
+            if (saldoOrigen < monto) return false;
+        } else {
+            return false;
+        }
+
+
+        cuentaOrigen.setSaldo(saldoOrigen - monto);
+        cuentaDestino.setSaldo(cuentaDestino.getSaldo() + monto);
+
+        boolean actualizadoOrigen = cuentabancariaDAO.modificarCuenta(cuentaOrigen);
+        boolean actualizadoDestino = cuentabancariaDAO.modificarCuenta(cuentaDestino);
+
+        if (actualizadoOrigen && actualizadoDestino) {
+            transaccionesDAO.registrarTransaccion(transaccion);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean depositarCuenta(Transacciones transaccion) {
+        CuentaBancaria cuenta = transaccion.getCuentaBancaria();
+        if (cuenta == null || !cuenta.getCuentaActiva()) {
+            return false;
+        }
+        double saldoActual = cuenta.getSaldo();
+        double monto = transaccion.getMonto();
+
+        if (monto <= 0) return false;
+
+        if (!(cuenta instanceof CuentaAhorro || cuenta instanceof CuentaDebito)) {
+            return false;
+        }
+
+        cuenta.setSaldo(saldoActual + monto);
+        boolean actualizado = cuentabancariaDAO.modificarCuenta(cuenta);
+        if (actualizado) {
+            transaccionesDAO.registrarTransaccion(transaccion);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean abonoCuenta(Transacciones transaccion) {
+        CuentaBancaria cuenta = transaccion.getCuentaBancaria();
+        if (cuenta == null || !cuenta.getCuentaActiva()) {
+            return false; 
+        }
+        double saldoActual = cuenta.getSaldo();
+        double monto = transaccion.getMonto();
+    
+        if (!(cuenta instanceof CuentaCredito)) {
+            return false;
+        }
+    
+        if (monto <= 0) return false;
+    
+        double nuevoSaldo = saldoActual + monto;
+        CuentaCredito credito = (CuentaCredito) cuenta;
+        if (nuevoSaldo > 0) return false; 
+        if (nuevoSaldo < -(credito.getLimiteCredito())) return false; 
+
+        cuenta.setSaldo(nuevoSaldo);
+        boolean actualizado = cuentabancariaDAO.modificarCuenta(cuenta);
+        if (actualizado) {
+            transaccionesDAO.registrarTransaccion(transaccion);
+            return true;
+        }
+        return false;
+    }
+
+
 }
+
